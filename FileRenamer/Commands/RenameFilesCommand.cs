@@ -27,7 +27,7 @@ namespace FileRenamer.Commands
         {
             _isExecuting = true;
 
-            if (!File.Exists(_mainViewModel.CsvFileName))
+            if (_mainViewModel.FileNamesList.Count < 1)
             {
                 MessageBox.Show("No valid CSV file selected.",
                     "Warning",
@@ -35,6 +35,7 @@ namespace FileRenamer.Commands
                     MessageBoxImage.Exclamation
                 );
 
+                _isExecuting = false;
                 return;
             }
 
@@ -46,36 +47,15 @@ namespace FileRenamer.Commands
                     MessageBoxImage.Exclamation
                 );
 
+                _isExecuting = false;
                 return;
             }
 
-            List<string[]> fileNames = new List<string[]>();
-
-            using (StreamReader reader = new StreamReader(_mainViewModel.CsvFileName))
-            {
-                while (!reader.EndOfStream)
-                {
-                    string line = reader.ReadLine();
-                    if (line == null) continue;
-
-                    string[] values = line.Split(';');
-
-                    if (values.Length != 2)
-                        MessageBox.Show("The provided CSV File is invalid.",
-                            "Error",
-                            MessageBoxButton.OK,
-                            MessageBoxImage.Error
-                        );
-
-                    fileNames.Add(values);
-                }
-            }
-
-            int numItemsInList = fileNames.Count;
+            int numItemsInList = _mainViewModel.FileNamesList.Count;
 
             await Task.Run(() =>
             {
-                foreach (string[] fileName in fileNames)
+                foreach (string[] fileName in _mainViewModel.FileNamesList)
                 {
                     string oldFilePath = _mainViewModel.FolderName + "\\" + fileName[0];
                     string newFilePath = _mainViewModel.FolderName + "\\" + fileName[1];
@@ -84,7 +64,7 @@ namespace FileRenamer.Commands
                     {
                         File.Move(oldFilePath, newFilePath);
 
-                        _mainViewModel.ProgressBarValue = 100 - fileNames.Count / numItemsInList * 100;
+                        _mainViewModel.ProgressBarValue = 100 - _mainViewModel.FileNamesList.Count / numItemsInList * 100;
                     }
                     else
                     {

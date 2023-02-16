@@ -12,5 +12,6 @@ Global
 		{55DB9C52-AA77-4007-8E69-BB5E26BF2979}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{55DB9C52-AA77-4007-8E69-BB5E26BF2979}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{55DB9C52-AA77-4007-8E69-BB5E26BF2979}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55DB9C52-AA77-4007-8E69-BB5E26BF2979}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
